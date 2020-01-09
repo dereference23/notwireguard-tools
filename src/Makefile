@@ -2,80 +2,102 @@
 #
 # Copyright (C) 2015-2019 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
 
-KERNELRELEASE ?= $(shell uname -r)
-KERNELDIR ?= /lib/modules/$(KERNELRELEASE)/build
+PKG_CONFIG ?= pkg-config
 PREFIX ?= /usr
 DESTDIR ?=
-SRCDIR ?= $(PREFIX)/src
-DKMSDIR ?= $(SRCDIR)/wireguard
-DEPMOD ?= depmod
+SYSCONFDIR ?= /etc
+BINDIR ?= $(PREFIX)/bin
+LIBDIR ?= $(PREFIX)/lib
+MANDIR ?= $(PREFIX)/share/man
+BASHCOMPDIR ?= $(PREFIX)/share/bash-completion/completions
+SYSTEMDUNITDIR ?= $(shell $(PKG_CONFIG) --variable=systemdsystemunitdir systemd 2>/dev/null || echo "$(PREFIX)/lib/systemd/system")
+RUNSTATEDIR ?= /var/run
+WITH_BASHCOMPLETION ?=
+WITH_WGQUICK ?=
+WITH_SYSTEMDUNITS ?=
 
-PWD := $(shell pwd)
-
-all: module tools
-debug: module-debug tools-debug
-
-ifneq ($(V),1)
-MAKEFLAGS += --no-print-directory
+ifeq ($(WITH_BASHCOMPLETION),)
+ifneq ($(strip $(wildcard $(BASHCOMPDIR))),)
+WITH_BASHCOMPLETION := yes
+endif
+endif
+ifeq ($(WITH_WGQUICK),)
+ifneq ($(strip $(wildcard $(BINDIR)/bash)),)
+WITH_WGQUICK := yes
+endif
+ifneq ($(strip $(wildcard $(DESTDIR)/bin/bash)),)
+WITH_WGQUICK := yes
+endif
+endif
+ifeq ($(WITH_SYSTEMDUNITS),)
+ifneq ($(strip $(wildcard $(SYSTEMDUNITDIR))),)
+WITH_SYSTEMDUNITS := yes
+endif
 endif
 
-version.h:
-	@export GIT_CEILING_DIRECTORIES="$$(readlink -f ../..)" && \
-	ver="#define WIREGUARD_VERSION \"$$(git describe --dirty 2>/dev/null)\"" && \
-	[ "$$(cat version.h 2>/dev/null)" != "$$ver" ] && \
-	echo "$$ver" > version.h && \
-	git update-index --assume-unchanged version.h || true
+PLATFORM ?= $(shell uname -s | tr '[:upper:]' '[:lower:]')
 
-dkms.conf:
-	@export GIT_CEILING_DIRECTORIES="$$(readlink -f ../..)" && \
-	ver="$$(git describe --dirty 2>/dev/null)" && \
-	. ./dkms.conf && \
-	[ "$$PACKAGE_VERSION" != "$$ver" ] && \
-	sed -i "s/PACKAGE_VERSION=.*/PACKAGE_VERSION=\"$$ver\"/" dkms.conf && \
-	git update-index --assume-unchanged dkms.conf || true
+CFLAGS ?= -O3
+CFLAGS += -std=gnu99 -D_GNU_SOURCE
+CFLAGS += -Wall -Wextra
+CFLAGS += -MMD -MP
+CFLAGS += -DRUNSTATEDIR="\"$(RUNSTATEDIR)\""
+ifeq ($(DEBUG_TOOLS),y)
+CFLAGS += -g
+endif
+ifeq ($(PLATFORM),linux)
+LIBMNL_CFLAGS := $(shell $(PKG_CONFIG) --cflags libmnl 2>/dev/null)
+LIBMNL_LDLIBS := $(shell $(PKG_CONFIG) --libs libmnl 2>/dev/null || echo -lmnl)
+CFLAGS += $(LIBMNL_CFLAGS)
+LDLIBS += $(LIBMNL_LDLIBS)
+endif
+ifeq ($(PLATFORM),haiku)
+LDLIBS += -lnetwork -lbsd
+endif
+ifeq ($(PLATFORM),windows)
+CC := x86_64-w64-mingw32-gcc
+CFLAGS += -Iwincompat/include -include wincompat/compat.h
+LDLIBS += -lws2_32
+wg: wincompat/libc.o wincompat/init.o
+endif
 
-module: version.h
-	@$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+ifneq ($(V),1)
+BUILT_IN_LINK.o := $(LINK.o)
+LINK.o = @echo "  LD      $$(pwd)/$@";
+LINK.o += $(BUILT_IN_LINK.o)
+BUILT_IN_COMPILE.c := $(COMPILE.c)
+COMPILE.c = @echo "  CC      $$(pwd)/$@";
+COMPILE.c += $(BUILT_IN_COMPILE.c)
+endif
 
-module-debug: version.h
-	@$(MAKE) -C $(KERNELDIR) M=$(PWD) V=1 CONFIG_WIREGUARD_DEBUG=y modules
+wg: $(patsubst %.c,%.o,$(wildcard *.c))
 
+ifneq ($(V),1)
 clean:
-	@$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
-	@$(MAKE) -C tools clean
+	@echo "  CLEAN   $$(pwd)/{wg,*.o,*.d}"
+	@$(RM) wg *.o *.d
+else
+clean:
+	$(RM) wg *.o *.d
+endif
 
-module-install:
-	@$(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
-	$(DEPMOD) -a $(KERNELRELEASE)
+install: wg
+	@install -v -d "$(DESTDIR)$(BINDIR)" && install -v -m 0755 wg "$(DESTDIR)$(BINDIR)/wg"
+	@install -v -d "$(DESTDIR)$(MANDIR)/man8" && install -v -m 0644 man/wg.8 "$(DESTDIR)$(MANDIR)/man8/wg.8"
+	@[ "$(WITH_BASHCOMPLETION)" = "yes" ] || exit 0; \
+	install -v -d "$(DESTDIR)$(BASHCOMPDIR)" && install -v -m 0644 completion/wg.bash-completion "$(DESTDIR)$(BASHCOMPDIR)/wg"
+	@[ "$(WITH_WGQUICK)" = "yes" ] || exit 0; \
+	install -v -m 0755 wg-quick/$(PLATFORM).bash "$(DESTDIR)$(BINDIR)/wg-quick" && install -v -m 0700 -d "$(DESTDIR)$(SYSCONFDIR)/wireguard"
+	@[ "$(WITH_WGQUICK)" = "yes" ] || exit 0; \
+	install -v -m 0644 man/wg-quick.8 "$(DESTDIR)$(MANDIR)/man8/wg-quick.8"
+	@[ "$(WITH_WGQUICK)" = "yes" -a "$(WITH_BASHCOMPLETION)" = "yes" ] || exit 0; \
+	install -v -m 0644 completion/wg-quick.bash-completion "$(DESTDIR)$(BASHCOMPDIR)/wg-quick"
+	@[ "$(WITH_WGQUICK)" = "yes" -a "$(WITH_SYSTEMDUNITS)" = "yes" ] || exit 0; \
+	install -v -d "$(DESTDIR)$(SYSTEMDUNITDIR)" && install -v -m 0644 systemd/wg-quick@.service "$(DESTDIR)$(SYSTEMDUNITDIR)/wg-quick@.service"
 
-install: module-install tools-install
+help:
+	@cat INSTALL
 
-rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
-DKMS_SOURCES := version.h Makefile Kbuild Kconfig dkms.conf $(filter-out version.h wireguard.mod.c tools/% tests/%,$(call rwildcard,,*.c *.h *.S *.pl *.include))
-dkms-install: $(DKMS_SOURCES)
-	@$(foreach f,$(DKMS_SOURCES),install -v -m0644 -D $(f) $(DESTDIR)$(DKMSDIR)/$(f);)
+.PHONY: clean install help
 
-tools:
-	@$(MAKE) -C tools
-
-tools-debug:
-	@$(MAKE) -C tools V=1 DEBUG_TOOLS=y
-
-tools-install:
-	@$(MAKE) -C tools install
-
-style:
-	$(KERNELDIR)/scripts/checkpatch.pl -f --max-line-length=4000 --codespell --color=always $(filter-out wireguard.mod.c,$(wildcard *.c)) $(wildcard *.h) $(wildcard selftest/*.c)
-
-check: clean
-	scan-build --html-title=WireGuard -maxloop 100 --view --keep-going $(MAKE) module tools CONFIG_WIREGUARD_DEBUG=y C=2 CF="-D__CHECK_ENDIAN__"
-
-coccicheck: clean
-	@$(MAKE) -C $(KERNELDIR) M=$(PWD) CONFIG_WIREGUARD_DEBUG=y coccicheck MODE=report
-
-cloc:
-	@cloc --skip-uniqueness --by-file --extract-with="$$(readlink -f ../contrib/kernel-tree/filter-compat-defines.sh) >FILE< > \$$(basename >FILE<)" $(filter-out wireguard.mod.c,$(wildcard *.c)) $(wildcard *.h)
-
--include tests/debug.mk
-
-.PHONY: all module module-debug module-install tools tools-install install dkms-install clean core-cloc check style version.h dkms.conf
+-include *.d
