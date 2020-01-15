@@ -1,3 +1,14 @@
+wireguard (1.0.20191226-1) UNRELEASED; urgency=medium
+
+  * new upstream release
+  * drop wireguard-dkms binary package, now supplied by the
+    wireguard-linux-compat source package
+  * refresh patches
+  * drop lintian override of version-substvar-for-external-package
+  * ship examples from new upstream path
+
+ -- Daniel Kahn Gillmor <dkg@fifthhorseman.net>  Wed, 15 Jan 2020 11:16:18 -0500
+
 wireguard (0.0.20191219-1) unstable; urgency=medium
 
   * new upstream release
