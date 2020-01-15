@@ -17,8 +17,8 @@ stretch-backports) then i think we can convince upstream to change
 their installation instructions to refer to stretch-backports, and we
 can remove this patch.
 ---
- src/genkey.c                                       |  2 +-
- 5 files changed, 4 insertions(+), 74 deletions(-)
+ src/genkey.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/genkey.c b/src/genkey.c
 index b9c2a86..44d4cdb 100644
