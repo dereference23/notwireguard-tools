@@ -1,5 +1,8 @@
 Debian Packaging work for WireGuard:
 
+ * wireguard metapackage should accept a 5.6 (or later) kernel instead
+   of a module
+
  * consider make check for wg during build: this depends on
    scan-build, which is part of clang, but also wants to clean the
    build tree first.  Currently, we don't do any build-time tests.
@@ -8,12 +11,5 @@ Debian Packaging work for WireGuard:
 
   - from src/, run "make check" (depending on clang-tools and sparse)
     and make sure it looks plausible.
-
-  - Run the kvm-based test suite on infrastructure that can support it
-    (using appropriate autopkgtest Restrictions)
-
-  - Think about flakiness markers for network-based tests if the
-    network is bad or the test server is offline (see also
-    https://salsa.debian.org/ci-team/autopkgtest/merge_requests/61)
 
   - Can we add other tests?

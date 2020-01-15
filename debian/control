@@ -17,7 +17,7 @@ Rules-Requires-Root: no
 Package: wireguard
 Architecture: all
 Depends:
- wireguard-dkms (= ${source:Version}) | wireguard-modules (= ${source:Upstream-Version}),
+ wireguard-dkms (>= 0.0.20191219) | wireguard-modules (>= 0.0.20191219),
  wireguard-tools (>= ${source:Version}),
  ${misc:Depends},
 Description: fast, modern, secure kernel VPN tunnel (metapackage)
@@ -32,26 +32,6 @@ Description: fast, modern, secure kernel VPN tunnel (metapackage)
  This metapackage explicitly depends on both the kernel module and the
  userspace tooling, and tries to load the new kernel module upon
  installation, if wireguard is already in use on the system.
-
-Package: wireguard-dkms
-Architecture: all
-Section: kernel
-Depends:
- ${misc:Depends},
- ${perl:Depends},
-Recommends:
- wireguard-tools (= ${source:Version}),
-Description: fast, modern, secure kernel VPN tunnel (DKMS version)
- WireGuard is a novel VPN that runs inside the Linux Kernel and uses
- state-of-the-art cryptography (the "Noise" protocol). It aims to be
- faster, simpler, leaner, and more useful than IPSec, while avoiding
- the massive headache. It intends to be considerably more performant
- than OpenVPN. WireGuard is designed as a general purpose VPN for
- running on embedded interfaces and super computers alike, fit for
- many different circumstances. It runs over UDP.
- .
- This package uses DKMS to automatically build the wireguard kernel
- module.
 
 Package: wireguard-tools
 Architecture: linux-any
