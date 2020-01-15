@@ -17,13 +17,13 @@ stretch-backports) then i think we can convince upstream to change
 their installation instructions to refer to stretch-backports, and we
 can remove this patch.
 ---
- src/tools/genkey.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ src/genkey.c                                       |  2 +-
+ 5 files changed, 4 insertions(+), 74 deletions(-)
 
-diff --git a/src/tools/genkey.c b/src/tools/genkey.c
+diff --git a/src/genkey.c b/src/genkey.c
 index b9c2a86..44d4cdb 100644
---- a/src/tools/genkey.c
-+++ b/src/tools/genkey.c
+--- a/src/genkey.c
++++ b/src/genkey.c
 @@ -40,7 +40,7 @@ static inline bool __attribute__((__warn_unused_result__)) get_random_bytes(uint
  		return false;
  	}
