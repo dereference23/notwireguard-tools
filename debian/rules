@@ -18,3 +18,6 @@ override_dh_auto_install-arch:
 
 override_dh_fixperms:
 	dh_fixperms -Xetc/wireguard
+
+override_dh_installexamples:
+	dh_installexamples -Xexternal-tests
