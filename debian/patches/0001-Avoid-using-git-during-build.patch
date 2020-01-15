@@ -1,0 +1,23 @@
+From: Daniel Kahn Gillmor <dkg@fifthhorseman.net>
+Date: Wed, 15 Jan 2020 11:23:27 -0500
+Subject: Avoid using git during build
+
+---
+ src/Makefile | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/src/Makefile b/src/Makefile
+index dc7452d..9ac5803 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -46,10 +46,6 @@ CFLAGS += -DRUNSTATEDIR="\"$(RUNSTATEDIR)\""
+ ifeq ($(DEBUG),yes)
+ CFLAGS += -g
+ endif
+-GIT_VERSION := $(shell GIT_CEILING_DIRECTORIES="$(PWD)/../.." git describe --dirty 2>/dev/null)
+-ifneq ($(GIT_VERSION),)
+-CFLAGS += -D'WIREGUARD_TOOLS_VERSION="$(GIT_VERSION:v%=%)"'
+-endif
+ ifeq ($(PLATFORM),linux)
+ LIBMNL_CFLAGS := $(shell $(PKG_CONFIG) --cflags libmnl 2>/dev/null)
+ LIBMNL_LDLIBS := $(shell $(PKG_CONFIG) --libs libmnl 2>/dev/null || echo -lmnl)
