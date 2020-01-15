@@ -4,7 +4,7 @@ Source: https://www.wireguard.com/
 Upstream-Contact: WireGuard mailing list <wireguard@lists.zx2c4.com>
 
 Files: *
-Copyright: 2015-2019 Jason A. Donenfeld <Jason@zx2c4.com>
+Copyright: 2015-2020 Jason A. Donenfeld <Jason@zx2c4.com>
 License: GPL-2
 
 Files: contrib/external-tests/python/main.py
@@ -12,7 +12,7 @@ Copyright: 2018 Piotr Lizonczyk <plizonczyk.public@gmail.com>
 License: MIT
 
 Files: debian/*
-Copyright: 2016-2019 Daniel Kahn Gillmor <dkg@fifthhorseman.net>
+Copyright: 2016-2020 Daniel Kahn Gillmor <dkg@fifthhorseman.net>
 License: GPL-2
 
 License: GPL-2
