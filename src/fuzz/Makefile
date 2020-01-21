@@ -2,10 +2,12 @@
 #
 # Copyright (C) 2018-2020 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
 
-all: config uapi
+FUZZERS := config uapi stringlist cmd set setconf
+
+all: $(FUZZERS)
 
 CFLAGS ?= -O3 -march=native -g
-CFLAGS += -fsanitize=fuzzer -std=gnu11 -idirafter ../uapi
+CFLAGS += -fsanitize=fuzzer -fsanitize=address -std=gnu11 -idirafter ../uapi -D_GNU_SOURCE
 CC := clang
 
 config: config.c ../config.c ../encoding.c
@@ -14,7 +16,19 @@ config: config.c ../config.c ../encoding.c
 uapi: uapi.c ../ipc.c ../curve25519.c ../encoding.c
 	$(CC) $(CFLAGS) -o $@ $<
 
+stringlist: stringlist.c ../ipc.c ../curve25519.c ../encoding.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+cmd: cmd.c $(wildcard ../*.c)
+	$(CC) $(CFLAGS) -D'RUNSTATEDIR="/var/empty"' -D'main(a,b)=wg_main(a,b)' -o $@ $^ -lmnl
+
+set: set.c ../set.c ../ipc.c ../encoding.c ../mnlg.c ../curve25519.c ../config.c
+	$(CC) $(CFLAGS) -o $@ $< -lmnl
+
+setconf: setconf.c ../setconf.c ../ipc.c ../encoding.c ../mnlg.c ../curve25519.c ../config.c
+	$(CC) $(CFLAGS) -o $@ $< -lmnl
+
 clean:
-	rm -f config uapi
+	$(RM) $(FUZZERS)
 
 .PHONY: all clean
