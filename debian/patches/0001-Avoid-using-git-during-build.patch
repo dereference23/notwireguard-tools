@@ -7,16 +7,16 @@ Subject: Avoid using git during build
  1 file changed, 4 deletions(-)
 
 diff --git a/src/Makefile b/src/Makefile
-index dc7452d..9ac5803 100644
+index 0e11d2b..5ea6f1c 100644
 --- a/src/Makefile
 +++ b/src/Makefile
 @@ -46,10 +46,6 @@ CFLAGS += -DRUNSTATEDIR="\"$(RUNSTATEDIR)\""
  ifeq ($(DEBUG),yes)
  CFLAGS += -g
  endif
--GIT_VERSION := $(shell GIT_CEILING_DIRECTORIES="$(PWD)/../.." git describe --dirty 2>/dev/null)
--ifneq ($(GIT_VERSION),)
--CFLAGS += -D'WIREGUARD_TOOLS_VERSION="$(GIT_VERSION:v%=%)"'
+-WIREGUARD_TOOLS_VERSION = $(patsubst v%,%,$(shell GIT_CEILING_DIRECTORIES="$(PWD)/../.." git describe --dirty 2>/dev/null))
+-ifneq ($(WIREGUARD_TOOLS_VERSION),)
+-CFLAGS += -D'WIREGUARD_TOOLS_VERSION="$(WIREGUARD_TOOLS_VERSION)"'
 -endif
  ifeq ($(PLATFORM),linux)
  LIBMNL_CFLAGS := $(shell $(PKG_CONFIG) --cflags libmnl 2>/dev/null)
