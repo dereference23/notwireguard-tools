@@ -1,3 +1,10 @@
+wireguard (1.0.20200121-2) unstable; urgency=medium
+
+  * Transfer module reload postinst script to wireguard-dkms package
+  * standards-version: bump to 4.5.0 (no changes needed)
+
+ -- Daniel Kahn Gillmor <dkg@fifthhorseman.net>  Wed, 22 Jan 2020 13:16:57 -0500
+
 wireguard (1.0.20200121-1) unstable; urgency=medium
 
   * new upstream release
