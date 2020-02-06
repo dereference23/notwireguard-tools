@@ -11,6 +11,11 @@ Files: contrib/external-tests/python/main.py
 Copyright: 2018 Piotr Lizonczyk <plizonczyk.public@gmail.com>
 License: MIT
 
+Files: src/netlink.h
+Copyright: 2015-2020 Jason A. Donenfeld <Jason@zx2c4.com>
+ 2008-2012 Pablo Neira Ayuso <pablo@netfilter.org>
+License: LGPL-2.1+
+
 Files: debian/*
 Copyright: 2016-2020 Daniel Kahn Gillmor <dkg@fifthhorseman.net>
 License: GPL-2
@@ -22,6 +27,15 @@ License: GPL-2
  .
  On Debian systems, the complete text of the GNU General Public License
  version 2 can be found in file "/usr/share/common-licenses/GPL-2".
+
+License: LGPL-2.1+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as
+ published by the Free Software Foundation; version 2.1 or later.
+ .
+ On Debian systems, the complete text of the GNU Lesser General Public
+ License version 2.1 can be found in file
+ "/usr/share/common-licenses/LGPL-2.1".
 
 License: MIT
  Permission is hereby granted, free of charge, to any person obtaining a copy
