@@ -1,3 +1,12 @@
+wireguard (1.0.20200206-1) unstable; urgency=medium
+
+  * new upstream release.
+  * d/copyright: note import of bits from libmnl
+  * refresh patches
+  * drop libmnl-dev from build-deps
+
+ -- Daniel Kahn Gillmor <dkg@fifthhorseman.net>  Thu, 06 Feb 2020 14:06:44 -0500
+
 wireguard (1.0.20200121-2) unstable; urgency=medium
 
   * Transfer module reload postinst script to wireguard-dkms package
