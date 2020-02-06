@@ -7,7 +7,7 @@ Subject: Avoid using git during build
  1 file changed, 4 deletions(-)
 
 diff --git a/src/Makefile b/src/Makefile
-index 0e11d2b..5ea6f1c 100644
+index ec5d3a6..3fb30d3 100644
 --- a/src/Makefile
 +++ b/src/Makefile
 @@ -46,10 +46,6 @@ CFLAGS += -DRUNSTATEDIR="\"$(RUNSTATEDIR)\""
@@ -18,6 +18,6 @@ index 0e11d2b..5ea6f1c 100644
 -ifneq ($(WIREGUARD_TOOLS_VERSION),)
 -CFLAGS += -D'WIREGUARD_TOOLS_VERSION="$(WIREGUARD_TOOLS_VERSION)"'
 -endif
- ifeq ($(PLATFORM),linux)
- LIBMNL_CFLAGS := $(shell $(PKG_CONFIG) --cflags libmnl 2>/dev/null)
- LIBMNL_LDLIBS := $(shell $(PKG_CONFIG) --libs libmnl 2>/dev/null || echo -lmnl)
+ ifeq ($(PLATFORM),haiku)
+ LDLIBS += -lnetwork -lbsd
+ endif
