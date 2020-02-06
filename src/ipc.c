@@ -4,13 +4,10 @@
  */
 
 #ifdef __linux__
-#include <libmnl/libmnl.h>
 #include <linux/if_link.h>
-#include <linux/netlink.h>
 #include <linux/rtnetlink.h>
-#include <linux/genetlink.h>
 #include <linux/wireguard.h>
-#include "mnlg.h"
+#include "netlink.h"
 #endif
 #include <netinet/in.h>
 #include <sys/socket.h>
@@ -43,7 +40,7 @@
 #define SOCK_PATH RUNSTATEDIR "/wireguard/"
 #define SOCK_SUFFIX ".sock"
 #ifdef __linux__
-#define SOCKET_BUFFER_SIZE MNL_SOCKET_BUFFER_SIZE
+#define SOCKET_BUFFER_SIZE (mnl_ideal_socket_buffer_size())
 #else
 #define SOCKET_BUFFER_SIZE 8192
 #endif
