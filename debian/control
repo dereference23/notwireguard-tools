@@ -5,7 +5,6 @@ Maintainer: Daniel Kahn Gillmor <dkg@fifthhorseman.net>
 Build-Depends:
  debhelper-compat (= 12),
  dkms,
- libmnl-dev,
  pkg-config,
  systemd,
 Standards-Version: 4.5.0
