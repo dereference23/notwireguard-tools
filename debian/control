@@ -29,9 +29,7 @@ Description: fast, modern, secure kernel VPN tunnel (metapackage)
  many different circumstances. It runs over UDP.
  .
  This metapackage explicitly depends on both the kernel module and the
- userspace tooling.  If this metapackage is installed, and wireguard
- is already in use on the system, the kernel module will be reloaded
- when the module is upgraded.
+ userspace tooling.
 
 Package: wireguard-tools
 Architecture: linux-any

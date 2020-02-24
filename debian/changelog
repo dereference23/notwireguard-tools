@@ -1,3 +1,10 @@
+wireguard (1.0.20200206-2) unstable; urgency=medium
+
+  * add NEWS file documenting that the metapackage will no longer cause a
+    reload.
+
+ -- Daniel Kahn Gillmor <dkg@fifthhorseman.net>  Mon, 24 Feb 2020 10:08:35 -0500
+
 wireguard (1.0.20200206-1) unstable; urgency=medium
 
   * new upstream release.
