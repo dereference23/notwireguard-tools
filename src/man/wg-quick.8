@@ -56,7 +56,7 @@ as usual.
 
 The configuration file adds a few extra configuration values to the format understood by
 .BR wg (8)
-in order to configure additional attribute of an interface. It handles the
+in order to configure additional attributes of an interface. It handles the
 values that it understands, and then it passes the remaining ones directly to
 .BR wg (8)
 for further processing.
@@ -99,7 +99,8 @@ is expanded to \fIINTERFACE\fP. Each one may be specified multiple times, in whi
 the commands are executed in order.
 .IP \(bu
 SaveConfig \(em if set to `true', the configuration is saved from the current state of the
-interface upon shutdown.
+interface upon shutdown. Any changes made to the configuration file before the
+interface is removed will therefore be overwritten.
 
 .P
 Recommended \fIINTERFACE\fP names include `wg0' or `wgvpn0' or even `wgmgmtlan0'.
