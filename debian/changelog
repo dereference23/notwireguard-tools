@@ -1,3 +1,10 @@
+wireguard (1.0.20200319-1) unstable; urgency=medium
+
+  * New upstream release.
+  * d/watch: Update to find new releases.
+
+ -- Unit 193 <unit193@ubuntu.com>  Fri, 20 Mar 2020 17:14:31 -0400
+
 wireguard (1.0.20200206-2) unstable; urgency=medium
 
   * add NEWS file documenting that the metapackage will no longer cause a
