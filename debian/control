@@ -18,7 +18,7 @@ Rules-Requires-Root: no
 Package: wireguard
 Architecture: all
 Depends:
- wireguard-dkms (>= 0.0.20200121-2) | wireguard-modules (>= 0.0.20191219),
+ wireguard-modules (>= 0.0.20191219) | wireguard-dkms (>= 0.0.20200121-2),
  wireguard-tools (>= ${source:Version}),
  ${misc:Depends},
 Description: fast, modern, secure kernel VPN tunnel (metapackage)
