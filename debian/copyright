@@ -11,10 +11,25 @@ Files: contrib/external-tests/python/main.py
 Copyright: 2018 Piotr Lizonczyk <plizonczyk.public@gmail.com>
 License: MIT
 
-Files: src/netlink.h
+Files: src/netlink.h contrib/embeddable-wg-library/*
 Copyright: 2015-2020 Jason A. Donenfeld <Jason@zx2c4.com>
  2008-2012 Pablo Neira Ayuso <pablo@netfilter.org>
 License: LGPL-2.1+
+
+Files: src/curve25519-fiat32.h
+Copyright: 2015-2016 The fiat-crypto Authors.
+           2018-2020 Jason A. Donenfeld <Jason@zx2c4.com>
+License: GPL-2 or MIT
+
+Files: src/curve25519-hacl64.h
+Copyright: 2016-2017 INRIA and Microsoft Corporation.
+           2018-2020 Jason A. Donenfeld <Jason@zx2c4.com>
+License: GPL-2 or MIT
+
+Files: src/uapi/openbsd/net/if_wg.h
+Copyright:  2020 Matt Dunwoodie <ncon@noconroy.net>
+            2020 Jason A. Donenfeld <Jason@zx2c4.com>
+License: ISC
 
 Files: debian/*
 Copyright: 2016-2020 Daniel Kahn Gillmor <dkg@fifthhorseman.net>
@@ -55,3 +70,16 @@ License: MIT
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
+
+License: ISC
+ Permission to use, copy, modify, and/or distribute this software for
+ any purpose with or without fee is hereby granted, provided that the
+ above copyright notice and this permission notice appear in all copies.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
