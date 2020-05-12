@@ -38,7 +38,9 @@ endif
 PLATFORM ?= $(shell uname -s | tr '[:upper:]' '[:lower:]')
 
 CFLAGS ?= -O3
-CFLAGS += -idirafter uapi
+ifneq ($(wildcard uapi/$(PLATFORM)/.),)
+CFLAGS += -idirafter uapi/$(PLATFORM)
+endif
 CFLAGS += -std=gnu99 -D_GNU_SOURCE
 CFLAGS += -Wall -Wextra
 CFLAGS += -MMD -MP
@@ -67,18 +69,14 @@ LINK.o += $(BUILT_IN_LINK.o)
 BUILT_IN_COMPILE.c := $(COMPILE.c)
 COMPILE.c = @echo "  CC      $@";
 COMPILE.c += $(BUILT_IN_COMPILE.c)
+BUILT_IN_RM := $(RM)
+RM := @a() { echo "  CLEAN   $$@"; $(BUILT_IN_RM) "$$@"; }; a
 endif
 
 wg: $(sort $(patsubst %.c,%.o,$(wildcard *.c)))
 
-ifneq ($(V),1)
-clean:
-	@echo "  CLEAN   {wg,*.o,*.d}"
-	@$(RM) wg *.o *.d
-else
 clean:
 	$(RM) wg *.o *.d
-endif
 
 install: wg
 	@install -v -d "$(DESTDIR)$(BINDIR)" && install -v -m 0755 wg "$(DESTDIR)$(BINDIR)/wg"
