@@ -1,0 +1,27 @@
+From 0cfde946b1ffc35fff57501f3d9eb675a2dd2dba Mon Sep 17 00:00:00 2001
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Mon, 11 May 2020 21:31:05 -0600
+Subject: [PATCH] Makefile: remember to install all systemd units
+
+Reported-by: Unit 193 <unit193@unit193.net>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ src/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/Makefile b/src/Makefile
+index d3d56cc..157153e 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -90,7 +90,7 @@ install: wg
+ 	@[ "$(WITH_WGQUICK)" = "yes" -a "$(WITH_BASHCOMPLETION)" = "yes" ] || exit 0; \
+ 	install -v -m 0644 completion/wg-quick.bash-completion "$(DESTDIR)$(BASHCOMPDIR)/wg-quick"
+ 	@[ "$(WITH_WGQUICK)" = "yes" -a "$(WITH_SYSTEMDUNITS)" = "yes" ] || exit 0; \
+-	install -v -d "$(DESTDIR)$(SYSTEMDUNITDIR)" && install -v -m 0644 systemd/wg-quick@.service "$(DESTDIR)$(SYSTEMDUNITDIR)/wg-quick@.service"
++	install -v -d "$(DESTDIR)$(SYSTEMDUNITDIR)" && install -v -m 0644 systemd/* "$(DESTDIR)$(SYSTEMDUNITDIR)/"
+ 
+ check: clean
+ 	scan-build --html-title=wireguard-tools -maxloop 100 --view --keep-going $(MAKE) wg
+-- 
+2.20.1
+
