@@ -1,3 +1,11 @@
+wireguard (1.0.20200513-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Drop upstream patch.
+  * d/control: Lower 'openresolv | resolvconf' to suggests.
+
+ -- Unit 193 <unit193@debian.org>  Fri, 15 May 2020 18:32:16 -0400
+
 wireguard (1.0.20200510-1) unstable; urgency=medium
 
   [ Daniel Kahn Gillmor ]
