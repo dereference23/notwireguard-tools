@@ -40,8 +40,8 @@ Depends:
  ${shlibs:Depends},
 Recommends:
  nftables | iptables,
- openresolv | resolvconf,
  wireguard-modules (>= 0.0.20171001) | wireguard-dkms (>= 0.0.20191219),
+Suggests: openresolv | resolvconf,
 Description: fast, modern, secure kernel VPN tunnel (userland utilities)
  WireGuard is a novel VPN that runs inside the Linux Kernel and uses
  state-of-the-art cryptography (the "Noise" protocol). It aims to be
