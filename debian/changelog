@@ -1,3 +1,9 @@
+wireguard (1.0.20200827-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Unit 193 <unit193@debian.org>  Wed, 09 Sep 2020 03:47:59 -0400
+
 wireguard (1.0.20200820-1) unstable; urgency=medium
 
   * New upstream release.
