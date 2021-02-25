@@ -6,7 +6,6 @@ Uploaders:
  Unit 193 <unit193@debian.org>,
 Build-Depends:
  debhelper-compat (= 13),
- dkms,
  pkg-config,
  systemd,
 Standards-Version: 4.5.1
