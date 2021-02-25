@@ -1,3 +1,13 @@
+wireguard (1.0.20210223-1) unstable; urgency=medium
+
+  * New upstream release.
+  * d/control:
+    - Bump dh compat to 13.
+    - Drop Build-Depend on dkms.
+  * Update Standards-Version to 4.5.1.
+
+ -- Unit 193 <unit193@debian.org>  Thu, 25 Feb 2021 02:02:36 -0500
+
 wireguard (1.0.20200827-1) unstable; urgency=medium
 
   * New upstream release.
