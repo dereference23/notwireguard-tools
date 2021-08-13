@@ -1,3 +1,10 @@
+wireguard (1.0.20210424-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Refresh patch.
+
+ -- Unit 193 <unit193@debian.org>  Fri, 13 Aug 2021 17:36:52 -0400
+
 wireguard (1.0.20210223-1) unstable; urgency=medium
 
   * New upstream release.
