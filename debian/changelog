@@ -1,3 +1,10 @@
+wireguard (1.0.20210914-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update Standards-Version to 4.6.0.
+
+ -- Unit 193 <unit193@debian.org>  Mon, 27 Sep 2021 21:21:06 -0400
+
 wireguard (1.0.20210424-1) unstable; urgency=medium
 
   * New upstream release.
