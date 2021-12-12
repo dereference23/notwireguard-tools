@@ -1,4 +1,0 @@
-Tests: keygen
-Restrictions: superficial
-Depends:
- wireguard-tools,

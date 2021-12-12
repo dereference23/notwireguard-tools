@@ -14,10 +14,7 @@ override_dh_auto_build-arch:
 	dh_auto_build --sourcedirectory=src -- $(WIREGUARD_ARGS)
 
 override_dh_auto_install-arch:
-	$(MAKE) -C src DESTDIR=../debian/wireguard-tools $(WIREGUARD_ARGS) install
+	$(MAKE) -C src DESTDIR=../debian/notwireguard-tools $(WIREGUARD_ARGS) install
 
 override_dh_fixperms:
-	dh_fixperms -Xetc/wireguard
-
-override_dh_installexamples:
-	dh_installexamples -Xexternal-tests
+	dh_fixperms -Xetc/notwireguard

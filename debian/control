@@ -1,45 +1,22 @@
-Source: wireguard
+Source: notwireguard-tools
 Section: net
 Priority: optional
-Maintainer: Daniel Kahn Gillmor <dkg@fifthhorseman.net>
-Uploaders:
- Unit 193 <unit193@debian.org>,
+Maintainer: Alexander Winkowski <dereference23@outlook.com>
 Build-Depends:
  debhelper-compat (= 13),
  pkg-config,
  systemd,
 Standards-Version: 4.6.0
-Homepage: https://www.wireguard.com
-Vcs-Git: https://salsa.debian.org/debian/wireguard.git
-Vcs-Browser: https://salsa.debian.org/debian/wireguard
 Rules-Requires-Root: no
 
-Package: wireguard
-Architecture: all
-Depends:
- wireguard-modules (>= 0.0.20191219) | wireguard-dkms (>= 0.0.20200121-2),
- wireguard-tools (>= ${source:Version}),
- ${misc:Depends},
-Description: fast, modern, secure kernel VPN tunnel (metapackage)
- WireGuard is a novel VPN that runs inside the Linux Kernel and uses
- state-of-the-art cryptography (the "Noise" protocol). It aims to be
- faster, simpler, leaner, and more useful than IPSec, while avoiding
- the massive headache. It intends to be considerably more performant
- than OpenVPN. WireGuard is designed as a general purpose VPN for
- running on embedded interfaces and super computers alike, fit for
- many different circumstances. It runs over UDP.
- .
- This metapackage explicitly depends on both the kernel module and the
- userspace tooling.
-
-Package: wireguard-tools
+Package: notwireguard-tools
 Architecture: linux-any
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
 Recommends:
  nftables | iptables,
- wireguard-modules (>= 0.0.20171001) | wireguard-dkms (>= 0.0.20191219),
+ notwireguard-dkms (>= 1.0.20211208),
 Suggests: openresolv | resolvconf,
 Description: fast, modern, secure kernel VPN tunnel (userland utilities)
  WireGuard is a novel VPN that runs inside the Linux Kernel and uses
