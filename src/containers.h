@@ -13,7 +13,7 @@
 #include <net/if.h>
 #include <netinet/in.h>
 #if defined(__linux__)
-#include <linux/wireguard.h>
+#include <linux/notwireguard.h>
 #elif defined(__OpenBSD__)
 #include <net/if_wg.h>
 #endif

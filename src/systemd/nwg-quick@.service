@@ -1,0 +1,16 @@
+[Unit]
+Description=NotWireGuard via nwg-quick(8) for %I
+After=network-online.target nss-lookup.target
+Wants=network-online.target nss-lookup.target
+PartOf=nwg-quick.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/nwg-quick up %i
+ExecStop=/usr/bin/nwg-quick down %i
+ExecReload=/bin/bash -c 'exec /usr/bin/nwg syncconf %i <(exec /usr/bin/nwg-quick strip %i)'
+Environment=WG_ENDPOINT_RESOLUTION_RETRIES=infinity
+
+[Install]
+WantedBy=multi-user.target

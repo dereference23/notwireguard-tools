@@ -85,22 +85,22 @@ RM := @a() { echo "  CLEAN   $$@"; $(BUILT_IN_RM) "$$@"; }; a
 WINDRES := @a() { echo "  WINDRES $${@: -1}"; $(WINDRES) "$$@"; }; a
 endif
 
-wg: $(sort $(patsubst %.c,%.o,$(wildcard *.c)))
+nwg: $(sort $(patsubst %.c,%.o,$(wildcard *.c)))
 
 clean:
-	$(RM) wg *.o *.d $(wildcard wincompat/*.o wincompat/*.lib wincompat/*.dll)
+	$(RM) nwg *.o *.d $(wildcard wincompat/*.o wincompat/*.lib wincompat/*.dll)
 
-install: wg
-	@install -v -d "$(DESTDIR)$(BINDIR)" && install -v -m 0755 wg "$(DESTDIR)$(BINDIR)/wg"
+install: nwg
+	@install -v -d "$(DESTDIR)$(BINDIR)" && install -v -m 0755 nwg "$(DESTDIR)$(BINDIR)/nwg"
 	@[ "$(WITH_WGQUICK)" = "yes" ] || exit 0; \
-	install -v -m 0755 wg-quick/$(PLATFORM).bash "$(DESTDIR)$(BINDIR)/wg-quick" && install -v -m 0700 -d "$(DESTDIR)$(SYSCONFDIR)/wireguard"
+	install -v -m 0755 nwg-quick/$(PLATFORM).bash "$(DESTDIR)$(BINDIR)/nwg-quick" && install -v -m 0700 -d "$(DESTDIR)$(SYSCONFDIR)/notwireguard"
 	@[ "$(WITH_WGQUICK)" = "yes" -a "$(WITH_SYSTEMDUNITS)" = "yes" ] || exit 0; \
 	install -v -d "$(DESTDIR)$(SYSTEMDUNITDIR)" && install -v -m 0644 systemd/* "$(DESTDIR)$(SYSTEMDUNITDIR)/"
 
 check: clean
-	scan-build --html-title=wireguard-tools -maxloop 100 --view --keep-going $(MAKE) wg
+	scan-build --html-title=notwireguard-tools -maxloop 100 --view --keep-going $(MAKE) nwg
 
-all: wg
+all: nwg
 .DEFAULT_GOAL: all
 .PHONY: clean install check
 

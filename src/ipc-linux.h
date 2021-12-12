@@ -17,7 +17,7 @@
 #include <linux/if_link.h>
 #include <linux/netlink.h>
 #include <linux/rtnetlink.h>
-#include <linux/wireguard.h>
+#include <linux/notwireguard.h>
 #include <netinet/in.h>
 #include "containers.h"
 #include "encoding.h"
