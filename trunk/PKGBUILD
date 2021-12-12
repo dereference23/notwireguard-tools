@@ -1,0 +1,34 @@
+# Maintainer: Alexander Winkowski <dereference23@outlook.com>
+# Contributor: Jason A. Donenfeld <Jason@zx2c4.com>
+
+pkgname=notwireguard-tools
+pkgver=1.0.20210914
+pkgrel=1
+pkgdesc='next generation secure network tunnel - tools for configuration'
+arch=('x86_64')
+url='https://www.wireguard.com/'
+license=('GPL')
+depends=('bash')
+optdepends=('openresolv: for DNS functionality'
+            'sudo: elevate privileges')
+source=("nwg-tools::git+https://github.com/dereference23/notwireguard-tools")
+sha256sums=('SKIP')
+
+build() {
+	cd nwg-tools/
+
+	make -C src/
+}
+
+package() {
+	cd nwg-tools/
+
+	make -C src/ \
+		DESTDIR="${pkgdir}/" \
+		WITH_BASHCOMPLETION=yes \
+                WITH_WGQUICK=yes \
+                WITH_SYSTEMDUNITS=yes \
+                install
+
+	install -d -m0755 "${pkgdir}"/usr/share/${pkgname}/
+}
