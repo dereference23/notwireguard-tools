@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Alexander Winkowski <dereference23@outlook.com>
 Build-Depends:
- debhelper-compat (= 13),
+ debhelper-compat (= 12),
  pkg-config,
  systemd,
 Standards-Version: 4.6.0
